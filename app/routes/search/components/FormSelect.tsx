@@ -17,7 +17,14 @@ function FormSelect({ options, param }: FormSelectProps) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const renderOptions = options.map((option) => (
-    <SelectItem key={option.value} value={option.value} className="z-20">
+    <SelectItem
+      key={option.value}
+      value={option.value}
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
+    >
       {option.label}
     </SelectItem>
   ));
@@ -44,9 +51,7 @@ function FormSelect({ options, param }: FormSelectProps) {
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectItem value="none" className="z-20">
-            {param}
-          </SelectItem>
+          <SelectItem value="none">{param}</SelectItem>
           {renderOptions}
         </SelectGroup>
       </SelectContent>
