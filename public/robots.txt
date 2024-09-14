@@ -1,0 +1,5 @@
+# Allow all bots
+User-agent: *
+
+# Allow everything else
+Allow: /

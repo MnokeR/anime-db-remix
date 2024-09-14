@@ -47,6 +47,9 @@ importers:
       lucide-react:
         specifier: ^0.441.0
         version: 0.441.0(react@18.3.1)
+      markdown-to-jsx:
+        specifier: ^7.5.0
+        version: 7.5.0(react@18.3.1)
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -2855,6 +2858,12 @@ packages:
   markdown-extensions@1.1.1:
     resolution: {integrity: sha512-WWC0ZuMzCyDHYCasEGs4IPvLyTGftYwh6wIEOULOF0HXcqZlhwRzrK0w2VUlxWA98xnvb/jszw4ZSkJ6ADpM6Q==}
     engines: {node: '>=0.10.0'}
+
+  markdown-to-jsx@7.5.0:
+    resolution: {integrity: sha512-RrBNcMHiFPcz/iqIj0n3wclzHXjwS7mzjBNWecKKVhNTIxQepIix6Il/wZCn2Cg5Y1ow2Qi84+eJrryFRWBEWw==}
+    engines: {node: '>= 10'}
+    peerDependencies:
+      react: '>= 0.14.0'
 
   mdast-util-definitions@5.1.2:
     resolution: {integrity: sha512-8SVPMuHqlPME/z3gqVwWY4zVXn8lqKv/pAhC57FuJ40ImXyBpmO5ukh98zB2v7Blql2FiHjHv9LVztSIqjY+MA==}
@@ -7217,6 +7226,10 @@ snapshots:
       sourcemap-codec: 1.4.8
 
   markdown-extensions@1.1.1: {}
+
+  markdown-to-jsx@7.5.0(react@18.3.1):
+    dependencies:
+      react: 18.3.1
 
   mdast-util-definitions@5.1.2:
     dependencies:

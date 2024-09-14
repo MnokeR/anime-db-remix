@@ -43,7 +43,7 @@ function FormSelect({ options, param }: FormSelectProps) {
         <SelectValue placeholder={param} />
       </SelectTrigger>
       <SelectContent>
-        <SelectGroup>
+        <SelectGroup className="z-10">
           <SelectItem value="none">{param}</SelectItem>
           {renderOptions}
         </SelectGroup>

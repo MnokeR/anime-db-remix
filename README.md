@@ -1,8 +1,6 @@
-# 🎥 Anime Website
+# 🎥 AnimeDB
 
-Welcome to the **Anime Website**, a platform where users can explore trending, popular, top-rated, and seasonal anime. This project uses cutting-edge technology to deliver fast and responsive UI, powered by [Remix](https://remix.run/), [React](https://reactjs.org/), and [TypeScript](https://www.typescriptlang.org/).
-
-![Anime Website Screenshot](path_to_screenshot_or_demo_image)
+Welcome to the **AnimeDB**, a platform where users can explore trending, popular, top-rated, and seasonal anime. This project uses cutting-edge technology to deliver fast and responsive UI, powered by [Remix](https://remix.run/), [React](https://reactjs.org/), and [TypeScript](https://www.typescriptlang.org/).
 
 ## 🌟 Features
 
@@ -51,7 +49,7 @@ Make sure you have the following installed on your machine:
    cd anime-db-remix
    ```
 
-3. Install dependencies using pnpm/npm
+3. Install dependencies using pnpm
 
    ```sh
    pnpm install
@@ -74,11 +72,6 @@ Make sure you have the following installed on your machine:
 ## 📚 API
 
 This project fetches data from the [Anilist GraphQL API](https://anilist.co/). Here is a basic example of how we query for trending anime:
-
-# Welcome to Remix + Cloudflare!
-
-- 📖 [Remix docs](https://remix.run/docs)
-- 📖 [Remix Cloudflare docs](https://remix.run/guides/vite#cloudflare)
 
 ## 📝 License
 

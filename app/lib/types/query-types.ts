@@ -49,6 +49,10 @@ export type AnimeFull = {
     month: number;
     day: number;
   };
+  countryOfOrigin: string;
+  source: string;
+  chapters: string;
+
   characterPreview: {
     edges: {
       id: number;
