@@ -17,7 +17,7 @@ function FormSelect({ options, param }: FormSelectProps) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const renderOptions = options.map((option) => (
-    <SelectItem key={option.value} value={option.value}>
+    <SelectItem key={option.value} value={option.value} className="z-20">
       {option.label}
     </SelectItem>
   ));
@@ -43,8 +43,10 @@ function FormSelect({ options, param }: FormSelectProps) {
         <SelectValue placeholder={param} />
       </SelectTrigger>
       <SelectContent>
-        <SelectGroup className="z-10">
-          <SelectItem value="none">{param}</SelectItem>
+        <SelectGroup>
+          <SelectItem value="none" className="z-20">
+            {param}
+          </SelectItem>
           {renderOptions}
         </SelectGroup>
       </SelectContent>

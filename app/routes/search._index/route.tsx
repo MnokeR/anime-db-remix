@@ -5,7 +5,7 @@ import Loading from "~/components/Loading";
 import { useInView } from "~/hooks/useInView";
 import { fetchSearchResults } from "~/lib/api/fetch-search-data";
 
-function Index() {
+function SearchIndex() {
   const [searchParams] = useSearchParams();
   const term = searchParams.get("term") || undefined;
   const type = searchParams.get("Type") || undefined;
@@ -69,4 +69,4 @@ function Index() {
   );
 }
 
-export default Index;
+export default SearchIndex;
