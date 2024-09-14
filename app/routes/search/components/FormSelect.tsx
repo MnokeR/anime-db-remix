@@ -49,7 +49,7 @@ function FormSelect({ options, param }: FormSelectProps) {
       <SelectTrigger className="w-max">
         <SelectValue placeholder={param} />
       </SelectTrigger>
-      <SelectContent className="z-50">
+      <SelectContent className="z-50 pointer-events-none">
         <SelectGroup>
           <SelectItem value="none">{param}</SelectItem>
           {renderOptions}
