@@ -45,7 +45,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export default function AppWithProviders() {
   const data = useLoaderData<typeof loader>();
   return (
-    <ThemeProvider specifiedTheme={data.theme} themeAction="set-theme">
+    <ThemeProvider specifiedTheme={data.theme} themeAction="set-theme-action">
       <Layout>
         <App />
       </Layout>
