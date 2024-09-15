@@ -17,14 +17,7 @@ function FormSelect({ options, param }: FormSelectProps) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const renderOptions = options.map((option) => (
-    <SelectItem
-      key={option.value}
-      value={option.value}
-      onClick={(e) => {
-        e.preventDefault();
-        e.stopPropagation();
-      }}
-    >
+    <SelectItem key={option.value} value={option.value}>
       {option.label}
     </SelectItem>
   ));
@@ -49,7 +42,7 @@ function FormSelect({ options, param }: FormSelectProps) {
       <SelectTrigger className="w-max">
         <SelectValue placeholder={param} />
       </SelectTrigger>
-      <SelectContent className="z-50 pointer-events-none">
+      <SelectContent>
         <SelectGroup>
           <SelectItem value="none">{param}</SelectItem>
           {renderOptions}
