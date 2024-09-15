@@ -14,8 +14,9 @@ function SearchIndex() {
   const format = searchParams.get("Format") || undefined;
   const airStatus = searchParams.get("Status") || undefined;
   const sort = searchParams.get("Sort") || undefined;
+  const genres = searchParams.get("Genres") || undefined;
 
-  const params = { term, type, year, season, format, airStatus, sort };
+  const params = { term, type, year, season, format, airStatus, sort, genres };
   const {
     data,
     status,

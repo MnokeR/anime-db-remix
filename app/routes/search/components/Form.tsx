@@ -5,6 +5,7 @@ import { useDebounce } from "~/hooks/useDebounce";
 import FormSelect from "./FormSelect";
 import {
   selectFormat,
+  selectGenres,
   selectSeason,
   selectSort,
   selectStatus,
@@ -13,8 +14,10 @@ import {
 } from "~/lib/search-options";
 
 function Form() {
-  const [searchValue, setSearchValue] = useState<string>("");
   const [searchParams, setSearchParams] = useSearchParams();
+  const [searchValue, setSearchValue] = useState<string>(
+    searchParams.get("term") || ""
+  );
   const debounce = useDebounce(searchValue, 500);
 
   useEffect(() => {
@@ -38,9 +41,11 @@ function Form() {
         type="text"
         placeholder="Search"
         value={searchValue}
+        defaultValue={searchParams.get("term") || ""}
         onChange={(e) => setSearchValue(e.target.value)}
       />
       <FormSelect options={selectType} param="Type" />
+      <FormSelect options={selectGenres} param="Genres" />
       <FormSelect options={selectYear} param="Year" />
       <FormSelect options={selectSeason} param="Season" />
       <FormSelect options={selectFormat} param="Format" />

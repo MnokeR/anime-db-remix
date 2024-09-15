@@ -9,6 +9,7 @@ export const fetchSearchResults = async (
   const variables = {
     search: params.term,
     type: params.type ? params.type : "ANIME",
+    genres: params.genres,
     seasonYear: params.year,
     season: params.season,
     format: params.format,

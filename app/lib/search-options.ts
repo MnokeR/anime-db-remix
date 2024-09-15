@@ -39,3 +39,24 @@ export const selectSort = [
   { label: "Trending", value: "TRENDING_DESC" },
   { label: "Status", value: "STATUS_DESC" },
 ];
+
+export const selectGenres = [
+  { label: "Action", value: "Action" },
+  { label: "Adventure", value: "Adventure" },
+  { label: "Comedy", value: "Comedy" },
+  { label: "Drama", value: "Drama" },
+  { label: "Ecchi", value: "Ecchi" },
+  { label: "Fantasy", value: "Fantasy" },
+  { label: "Horror", value: "Horror" },
+  { label: "Mahou Shoujo", value: "Mahou Shoujo" },
+  { label: "Mecha", value: "Mecha" },
+  { label: "Music", value: "Music" },
+  { label: "Mystery", value: "Mystery" },
+  { label: "Psychological", value: "Psychological" },
+  { label: "Romance", value: "Romance" },
+  { label: "Sci-Fi", value: "Sci-Fi" },
+  { label: "Slice of Life", value: "Slice of Life" },
+  { label: "Sports", value: "Sports" },
+  { label: "Supernatural", value: "Supernatural" },
+  { label: "Thriller", value: "Thriller" },
+];
