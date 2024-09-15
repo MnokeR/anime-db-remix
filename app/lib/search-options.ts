@@ -15,7 +15,7 @@ export const selectYear = years;
 
 export const selectSeason = [
   { label: "Winter", value: "WINTER" },
-  { label: "Spring", value: "SRPING" },
+  { label: "Spring", value: "SPRING" },
   { label: "Summer", value: "SUMMER" },
   { label: "Fall", value: "FALL" },
 ];

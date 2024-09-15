@@ -76,15 +76,9 @@ const SelectContent = React.forwardRef<
 >(({ className, children, position = "popper", ...props }, ref) => (
   <SelectPrimitive.Portal>
     <SelectPrimitive.Content
-      ref={(instance) => {
-        if (typeof forwardedRef === "function") {
-          forwardedRef(instance);
-        } else if (forwardedRef) {
-          forwardedRef.current = instance;
-        }
-        if (!instance) return;
-
-        instance.ontouchstart = (e) => {
+      ref={(ref) => {
+        if (!ref) return;
+        ref.ontouchstart = (e) => {
           e.preventDefault();
         };
       }}
