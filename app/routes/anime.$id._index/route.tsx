@@ -3,6 +3,8 @@ import Heading2 from "~/components/Heading2";
 import { AnimeDetail } from "~/lib/types/query-types";
 import Markdown from "markdown-to-jsx";
 
+import Relation from "./components/Relation";
+
 function AnimeIndex() {
   const { anime } = useOutletContext<{ anime: AnimeDetail }>();
 
@@ -13,19 +15,11 @@ function AnimeIndex() {
           key={character.id}
           src={character.node.image.large}
           alt="cover"
-          width={185}
+          width={134}
         />
       )
   );
-
-  const renderRelations = anime.relations.edges.map((relation) => (
-    <img
-      key={relation.id}
-      src={relation.node.coverImage.large}
-      alt="cover"
-      width={185}
-    />
-  ));
+  console.log(anime);
 
   return (
     <div className="flex-1 flex flex-col pt-5 gap-10">
@@ -33,9 +27,19 @@ function AnimeIndex() {
         <h1 className="text-2xl text-primary font-semibold mb-2">
           {anime.title.userPreferred}
         </h1>
-        <p>
-          <Markdown>{anime.description}</Markdown>
-        </p>
+
+        <Markdown>{anime.description}</Markdown>
+
+        <div className="pt-5 flex flex-wrap gap-2">
+          {anime.genres.map((genre) => (
+            <span
+              key={genre}
+              className="bg-primary text-primary-foreground py-1 px-2 text-sm rounded"
+            >
+              {genre}
+            </span>
+          ))}
+        </div>
       </article>
 
       <article>
@@ -47,7 +51,7 @@ function AnimeIndex() {
       <article>
         <Heading2>Relations</Heading2>
         <div className="flex flex-wrap justify-center md:justify-normal mt-5 gap-5">
-          {renderRelations}
+          <Relation />
         </div>
       </article>
     </div>
