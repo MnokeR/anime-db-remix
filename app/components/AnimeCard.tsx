@@ -16,6 +16,8 @@ function AnimeCard({ image, title, format, id }: AnimeCardProps) {
             className="rounded-xl w-[195px] h-[279px] object-cover"
             src={image}
             alt="Cover"
+            width={195}
+            height={279}
           />
         </Link>
         <span className="absolute top-1 left-1 z-10 text-sm bg-primary text-primary-foreground rounded-full px-2 py-.5">

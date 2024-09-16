@@ -43,7 +43,9 @@ function AnimeIndex() {
       </article>
 
       <article>
-        <Heading2>Main Cast</Heading2>
+        <Heading2>
+          Main Cast<span>View All</span>
+        </Heading2>
         <div className="flex flex-wrap justify-center md:justify-normal mt-5 gap-5">
           {renderMainCast}
         </div>

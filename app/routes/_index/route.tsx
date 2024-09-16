@@ -1,9 +1,17 @@
-import { MetaFunction } from "@remix-run/cloudflare";
-import { useQuery } from "@tanstack/react-query";
-import { fetchHomeData } from "~/lib/api/fetch-home-data";
+import { defer, MetaFunction } from "@remix-run/cloudflare";
+import { Suspense } from "react";
+import { Await, useLoaderData } from "@remix-run/react";
 import HeroSection from "./components/HeroSection";
 import AnimeListCat from "./components/AnimeListCat";
 import Loading from "~/components/Loading";
+import { homeQuery, URL } from "~/lib/api/queries";
+import {
+  currentSeason,
+  currentSeasonYear,
+  nextSeason,
+  nextSeasonYear,
+} from "~/lib/seasons";
+import { HomeAnimesList } from "~/lib/types/query-types";
 
 export const meta: MetaFunction = () => {
   return [
@@ -12,16 +20,52 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export default function Index() {
-  const { data, status, error } = useQuery({
-    queryKey: ["home-animes"],
-    queryFn: async () => await fetchHomeData(),
-    staleTime: 1000 * 60 * 24,
-    refetchOnMount: false,
-  });
+export const loader = async () => {
+  const variables = {
+    currentSeason,
+    currentSeasonYear,
+    nextSeason,
+    nextSeasonYear,
+  };
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify({
+      query: homeQuery,
+      variables,
+    }),
+    cf: {
+      cacheTtl: 5,
+      cacheEverything: true,
+    },
+  };
+  const res = await fetch(URL, options);
+  const data: { data: HomeAnimesList } = await res.json();
+  return defer(
+    { data: data.data },
+    { headers: { "Cache-Control": "max-age=1500, must-revalidate" } }
+  );
+};
 
-  if (status === "pending") return <Loading />;
-  if (status === "error") return console.log(error);
+// let cache: HomeAnimesList;
+
+// export const clientLoader = async ({
+//   serverLoader,
+// }: ClientLoaderFunctionArgs) => {
+//   if (cache) return { data: cache };
+//   const loaderData: { data: HomeAnimesList } = await serverLoader();
+//   const data = loaderData.data;
+//   cache = data;
+//   return { data };
+// };
+
+// clientLoader.hydrate = true;
+
+export default function Index() {
+  const { data } = useLoaderData<typeof loader>();
 
   return (
     <main>
@@ -29,11 +73,35 @@ export default function Index() {
         <HeroSection />
       </section>
       <section className="flex flex-col gap-10">
-        <AnimeListCat tReg="TRENDING" tRed="NOW" cat={data!.trending.media} />
-        <AnimeListCat tReg="CURRENT" tRed="SEASON" cat={data!.season.media} />
-        <AnimeListCat tReg="NEXT" tRed="SEASON" cat={data!.nextSeason.media} />
-        <AnimeListCat tReg="MOST" tRed="POPULAR" cat={data!.popular.media} />
-        <AnimeListCat tReg="TOP" tRed="RATED" cat={data!.top.media} />
+        <Suspense fallback={<Loading />}>
+          <Await resolve={data}>
+            {
+              <>
+                <AnimeListCat
+                  tReg="TRENDING"
+                  tRed="NOW"
+                  cat={data.trending.media}
+                />
+                <AnimeListCat
+                  tReg="CURRENT"
+                  tRed="SEASON"
+                  cat={data.season.media}
+                />
+                <AnimeListCat
+                  tReg="NEXT"
+                  tRed="SEASON"
+                  cat={data.nextSeason.media}
+                />
+                <AnimeListCat
+                  tReg="MOST"
+                  tRed="POPULAR"
+                  cat={data.popular.media}
+                />
+                <AnimeListCat tReg="TOP" tRed="RATED" cat={data.top.media} />
+              </>
+            }
+          </Await>
+        </Suspense>
       </section>
     </main>
   );
