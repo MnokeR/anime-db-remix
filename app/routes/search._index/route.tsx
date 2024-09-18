@@ -1,9 +1,5 @@
-import { Await, useSearchParams } from "@remix-run/react";
-import {
-  useInfiniteQuery,
-  useSuspenseInfiniteQuery,
-} from "@tanstack/react-query";
-import { Suspense } from "react";
+import { useSearchParams } from "@remix-run/react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import AnimeCard from "~/components/AnimeCard";
 import Loading from "~/components/Loading";
 import { useInView } from "~/hooks/useInView";
@@ -30,7 +26,7 @@ function SearchIndex() {
       const pageInfo = lastPage.data.Page.pageInfo;
       return pageInfo.hasNextPage ? pageInfo.currentPage + 1 : undefined;
     },
-    staleTime: 1000 * 60 * 20,
+    staleTime: 1000 * 60 * 10,
   });
   const containerRef = useInView({
     hasNextPage,

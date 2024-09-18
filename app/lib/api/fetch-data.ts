@@ -25,7 +25,7 @@ export const fetchSearchData = async ({
     headers: {
       "Content-Type": "application/json",
       accept: "application/json",
-      "Cache-Control": "max-age-1500 public",
+      "Cache-Control": "max-age-1500, public",
     },
     body: JSON.stringify({
       query: searchQuery,

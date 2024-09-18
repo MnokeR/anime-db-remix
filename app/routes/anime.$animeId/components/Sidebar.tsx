@@ -8,7 +8,6 @@ type SidebarProps = {
   data: AnimeDetail;
 };
 function Sidebar({ data }: SidebarProps) {
-  console.log(data);
   const anime = data.Media;
   return (
     <div className="flex flex-col w-full md:w-[320px] p-5 bg-secondary rounded-xl gap-5">

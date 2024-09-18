@@ -1,4 +1,5 @@
-import { defer, json, LoaderFunctionArgs } from "@remix-run/cloudflare";
+import { json, LoaderFunctionArgs } from "@remix-run/cloudflare";
+
 import { Outlet, useLoaderData } from "@remix-run/react";
 import {
   dehydrate,
@@ -18,13 +19,9 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     queryFn: async ({ pageParam }) =>
       await fetchSearchData({ pageParam, params }),
     initialPageParam: 1,
-    staleTime: 1000 * 60 * 20,
   });
   const dehydratedState = dehydrate(queryClient);
-  return json(
-    { dehydratedState },
-    { headers: { "Cache-Control": "max-age=1500 must-revalidate" } }
-  );
+  return json({ dehydratedState });
 };
 
 function Search() {
