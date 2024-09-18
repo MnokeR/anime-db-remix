@@ -8,16 +8,18 @@ type SidebarProps = {
   data: AnimeDetail;
 };
 function Sidebar({ data }: SidebarProps) {
+  console.log(data);
+  const anime = data.Media;
   return (
     <div className="flex flex-col w-full md:w-[320px] p-5 bg-secondary rounded-xl gap-5">
       <img
-        src={data.coverImage.large}
+        src={anime.coverImage.large}
         alt="cover"
         width={280}
         className="self-center w-full sm:w-auto"
       />
       <div>
-        <NavLink to={`/anime/${data.id}`}>
+        <NavLink to={`/anime/${anime.id}`}>
           <div className="inline-flex items-center gap-4">
             <span>
               <LayoutDashboardIcon />
@@ -33,8 +35,8 @@ function Sidebar({ data }: SidebarProps) {
             Characters
           </div>
         </NavLink>
-        {data.type === "ANIME" && <FormatAnime data={data} />}
-        {data.type === "MANGA" && <FormatManga data={data} />}
+        {anime.type === "ANIME" && <FormatAnime data={data} />}
+        {anime.type === "MANGA" && <FormatManga data={data} />}
       </div>
     </div>
   );

@@ -18,6 +18,7 @@ function Form() {
   const [searchValue, setSearchValue] = useState<string>(
     searchParams.get("term") || ""
   );
+
   const debounce = useDebounce(searchValue, 500);
   const prevDebounce = useRef(debounce);
 
@@ -35,7 +36,12 @@ function Form() {
       prevDebounce.current = debounce;
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debounce]);
+  }, [debounce, searchParams, setSearchParams]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    setSearchValue(e.target.value);
+  };
 
   return (
     <>
@@ -43,11 +49,10 @@ function Form() {
         <Input
           className="max-w-[300px]"
           name="term"
-          type="text"
+          type="search"
           placeholder="Search"
-          value={searchValue}
           defaultValue={searchParams.get("term") || ""}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={(e) => handleChange(e)}
         />
         <FormSelect options={selectType} param="Type" />
         <FormSelect options={selectGenres} param="Genres" />

@@ -1,11 +1,13 @@
-import axios from "axios";
-import { searchQuery, URL } from "./queries";
 import { AnimeSearch, SearchParams } from "../types/query-types";
+import { BASE_URL, searchQuery } from "./queries";
 
-export const fetchSearchResults = async (
-  pageParam: number,
-  params: SearchParams
-) => {
+export const fetchSearchData = async ({
+  pageParam = 1,
+  params,
+}: {
+  pageParam: number;
+  params: SearchParams;
+}) => {
   const variables = {
     search: params.term,
     type: params.type ? params.type : "ANIME",
@@ -20,25 +22,24 @@ export const fetchSearchResults = async (
 
   const options = {
     method: "POST",
-    url: URL,
     headers: {
       "Content-Type": "application/json",
-      Accept: "application/json",
+      accept: "application/json",
+      "Cache-Control": "max-age-1500 public",
     },
-    data: {
+    body: JSON.stringify({
       query: searchQuery,
       variables,
+    }),
+    cf: {
+      cacheTtl: 5,
+      cacheEverything: true,
     },
   };
+  const resp = await fetch(BASE_URL, options);
 
-  try {
-    const res = await axios(options);
-    if (!res) {
-      throw new Error(`Failed to fetch ${res}`);
-    }
-    const animes: AnimeSearch = res.data.data.Page;
-    return animes;
-  } catch (error) {
-    console.error("Error fetching:", error);
-  }
+  if (!resp.ok) throw new Error(`Network error: ${resp.statusText}`);
+
+  const data = await resp.json();
+  return data as { data: AnimeSearch };
 };

@@ -3,57 +3,37 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import AnimeCard from "~/components/AnimeCard";
 import Loading from "~/components/Loading";
 import { useInView } from "~/hooks/useInView";
-import { fetchSearchResults } from "~/lib/api/fetch-search-data";
+import { fetchSearchData } from "~/lib/api/fetch-data";
+import { getNewSearchParams } from "~/lib/api/get-search-params";
 
 function SearchIndex() {
   const [searchParams] = useSearchParams();
-  const term = searchParams.get("term") || undefined;
-  const type = searchParams.get("Type") || undefined;
-  const year = searchParams.get("Year") || undefined;
-  const season = searchParams.get("Season") || undefined;
-  const format = searchParams.get("Format") || undefined;
-  const airStatus = searchParams.get("Status") || undefined;
-  const sort = searchParams.get("Sort") || undefined;
-  const genres = searchParams.get("Genres") || undefined;
+  const params = getNewSearchParams(searchParams);
 
-  const params = { term, type, year, season, format, airStatus, sort, genres };
-  const {
-    data,
-    status,
-    error,
-    hasNextPage,
-    fetchNextPage,
-    isFetchingNextPage,
-  } = useInfiniteQuery({
-    queryKey: ["search-results", params],
-    queryFn: async ({ pageParam }) =>
-      await fetchSearchResults(pageParam, params),
-    initialPageParam: 1,
-    getNextPageParam: (lastPage) => {
-      const pageInfo = lastPage;
-      return pageInfo?.pageInfo.hasNextPage
-        ? pageInfo.pageInfo.currentPage + 1
-        : undefined;
-    },
-    staleTime: 1000 * 60 * 24,
-    refetchOnMount: false,
-  });
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useInfiniteQuery({
+      queryKey: ["search", params],
+      queryFn: async ({ pageParam }) =>
+        await fetchSearchData({ pageParam, params }),
+      initialPageParam: 1,
+      getNextPageParam: (lastPage) => {
+        const pageInfo = lastPage.data.Page.pageInfo;
+        return pageInfo.hasNextPage ? pageInfo.currentPage + 1 : undefined;
+      },
+      staleTime: 1000 * 60 * 25,
+    });
+
   const containerRef = useInView({
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
   });
 
-  if (status === "pending") return <Loading />;
-  if (status === "error") return console.log(error.message);
-
-  const pages = data?.pages;
-
   return (
     <>
       <section className="flex flex-wrap justify-center gap-5">
-        {pages?.map((page) =>
-          page?.media.map((anime) => (
+        {data?.pages.map((page) =>
+          page.data.Page.media.map((anime) => (
             <AnimeCard
               key={anime.id}
               id={anime.id}

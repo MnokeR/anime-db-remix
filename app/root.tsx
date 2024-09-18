@@ -77,12 +77,10 @@ function Layout({ children }: { children: React.ReactNode }) {
 
 function App() {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <Header />
-      <QueryClientProvider client={queryClient}>
-        <Outlet />
-      </QueryClientProvider>
+      <Outlet />
       <Footer />
-    </>
+    </QueryClientProvider>
   );
 }

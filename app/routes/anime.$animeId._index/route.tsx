@@ -6,9 +6,10 @@ import Markdown from "markdown-to-jsx";
 import Relation from "./components/Relation";
 
 function AnimeIndex() {
-  const { anime } = useOutletContext<{ anime: AnimeDetail }>();
+  const { data } = useOutletContext<{ data: AnimeDetail }>();
+  const media = data.Media;
 
-  const renderMainCast = anime.characterPreview.edges.map(
+  const renderMainCast = media.characterPreview.edges.map(
     (character) =>
       character.role === "MAIN" && (
         <img
@@ -19,19 +20,18 @@ function AnimeIndex() {
         />
       )
   );
-  console.log(anime);
 
   return (
     <div className="flex-1 flex flex-col pt-5 gap-10">
       <article>
         <h1 className="text-2xl text-primary font-semibold mb-2">
-          {anime.title.userPreferred}
+          {media.title.userPreferred}
         </h1>
 
-        <Markdown>{anime.description}</Markdown>
+        <Markdown>{media.description}</Markdown>
 
         <div className="pt-5 flex flex-wrap gap-2">
-          {anime.genres.map((genre) => (
+          {media.genres.map((genre) => (
             <span
               key={genre}
               className="bg-primary text-primary-foreground py-1 px-2 text-sm rounded"

@@ -6,20 +6,18 @@ export type HomeAnimesList = {
   trending: { media: AnimeShort[] };
 };
 
-export type AnimeDetail = AnimeShort & AnimeFull;
+export type AnimeDetail = { Media: AnimeShort & AnimeFull };
 
 export type AnimeSearch = {
-  media: AnimeShort[];
-} & PageInfo;
+  Page: { media: AnimeShort[]; pageInfo: PageInfo };
+};
 
 export type PageInfo = {
-  pageInfo: {
-    currentPage: number;
-    hasNextPage: boolean;
-    lastPage: number;
-    perPage: number;
-    total: number;
-  };
+  currentPage: number;
+  hasNextPage: boolean;
+  lastPage: number;
+  perPage: number;
+  total: number;
 };
 
 export type AnimeShort = {
@@ -135,6 +133,7 @@ export type AnimeFull = {
 };
 
 export type SearchParams = {
+  page?: number;
   term?: string;
   type?: string;
   sort?: string;

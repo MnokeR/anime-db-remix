@@ -1,23 +1,43 @@
-import { Outlet } from "@remix-run/react";
+import { json, LoaderFunctionArgs } from "@remix-run/cloudflare";
+import { Outlet, useLoaderData } from "@remix-run/react";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+} from "@tanstack/react-query";
+import { fetchSearchData } from "~/lib/api/fetch-data";
+import { getSearchParams } from "~/lib/api/get-search-params";
 import Form from "./components/Form";
-import { MetaFunction } from "@remix-run/cloudflare";
 
-export const meta: MetaFunction = () => {
-  return [
-    { title: "AnimeDB - Search" },
-    { name: "description", content: "Search for your favorite Anime!" },
-  ];
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const queryClient = new QueryClient();
+  const params = getSearchParams(request);
+
+  await queryClient.prefetchInfiniteQuery({
+    queryKey: ["search"],
+    queryFn: async ({ pageParam }) =>
+      await fetchSearchData({ pageParam, params }),
+    initialPageParam: 1,
+    staleTime: 1000 * 60 * 20,
+  });
+  const dehydratedState = dehydrate(queryClient);
+  return json(
+    { dehydratedState },
+    { headers: { "Cache-Control": "max-age=1500 must-revalidate" } }
+  );
 };
 
 function Search() {
+  const { dehydratedState } = useLoaderData<typeof loader>();
   return (
-    <main>
-      <section>
-        <Form />
-      </section>
-
-      <Outlet />
-    </main>
+    <HydrationBoundary state={dehydratedState}>
+      <main>
+        <section>
+          <Form />
+        </section>
+        <Outlet />
+      </main>
+    </HydrationBoundary>
   );
 }
 

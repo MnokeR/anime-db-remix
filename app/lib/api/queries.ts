@@ -1,4 +1,4 @@
-export const URL = "https://graphql.anilist.co";
+export const BASE_URL = "https://graphql.anilist.co";
 
 export const homeQuery = `query($currentSeason: MediaSeason, $currentSeasonYear: Int, 
   $nextSeason: MediaSeason, $nextSeasonYear: Int) {

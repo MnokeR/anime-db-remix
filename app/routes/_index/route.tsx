@@ -4,7 +4,7 @@ import { Await, useLoaderData } from "@remix-run/react";
 import HeroSection from "./components/HeroSection";
 import AnimeListCat from "./components/AnimeListCat";
 import Loading from "~/components/Loading";
-import { homeQuery, URL } from "~/lib/api/queries";
+import { homeQuery, BASE_URL } from "~/lib/api/queries";
 import {
   currentSeason,
   currentSeasonYear,
@@ -42,7 +42,7 @@ export const loader = async () => {
       cacheEverything: true,
     },
   };
-  const res = await fetch(URL, options);
+  const res = await fetch(BASE_URL, options);
   const data: { data: HomeAnimesList } = await res.json();
   return defer(
     { data: data.data },

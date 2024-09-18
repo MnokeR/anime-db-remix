@@ -4,10 +4,11 @@ import { relationOrder } from "~/lib/relationOrder";
 import { AnimeDetail } from "~/lib/types/query-types";
 
 function Relation() {
-  const { anime } = useOutletContext<{ anime: AnimeDetail }>();
+  const { data } = useOutletContext<{ data: AnimeDetail }>();
+  const media = data.Media;
 
   const renderList = relationOrder.map((relationType) =>
-    anime.relations.edges.map(
+    media.relations.edges.map(
       (relation) =>
         relation.relationType === relationType && (
           <Link key={relation.id} to={`/anime/${relation.node.id}`}>
