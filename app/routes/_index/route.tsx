@@ -50,20 +50,6 @@ export const loader = async () => {
   );
 };
 
-// let cache: HomeAnimesList;
-
-// export const clientLoader = async ({
-//   serverLoader,
-// }: ClientLoaderFunctionArgs) => {
-//   if (cache) return { data: cache };
-//   const loaderData: { data: HomeAnimesList } = await serverLoader();
-//   const data = loaderData.data;
-//   cache = data;
-//   return { data };
-// };
-
-// clientLoader.hydrate = true;
-
 export default function Index() {
   const { data } = useLoaderData<typeof loader>();
 

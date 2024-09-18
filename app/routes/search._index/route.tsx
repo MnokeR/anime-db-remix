@@ -1,5 +1,6 @@
-import { useSearchParams } from "@remix-run/react";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { Await, useSearchParams } from "@remix-run/react";
+import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
+import { Suspense } from "react";
 import AnimeCard from "~/components/AnimeCard";
 import Loading from "~/components/Loading";
 import { useInView } from "~/hooks/useInView";
@@ -11,7 +12,7 @@ function SearchIndex() {
   const params = getNewSearchParams(searchParams);
 
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useInfiniteQuery({
+    useSuspenseInfiniteQuery({
       queryKey: ["search", params],
       queryFn: async ({ pageParam }) =>
         await fetchSearchData({ pageParam, params }),
@@ -32,17 +33,21 @@ function SearchIndex() {
   return (
     <>
       <section className="flex flex-wrap justify-center gap-5">
-        {data?.pages.map((page) =>
-          page.data.Page.media.map((anime) => (
-            <AnimeCard
-              key={anime.id}
-              id={anime.id}
-              image={anime.coverImage.large}
-              title={anime.title.userPreferred}
-              format={anime.format}
-            />
-          ))
-        )}
+        <Suspense fallback={<Loading />}>
+          <Await resolve={data}>
+            {data.pages.map((page) =>
+              page.data.Page.media.map((anime) => (
+                <AnimeCard
+                  key={anime.id}
+                  id={anime.id}
+                  image={anime.coverImage.large}
+                  title={anime.title.userPreferred}
+                  format={anime.format}
+                />
+              ))
+            )}
+          </Await>
+        </Suspense>
       </section>
       {hasNextPage && !isFetchingNextPage && <div ref={containerRef} />}
       {isFetchingNextPage && <Loading />}
