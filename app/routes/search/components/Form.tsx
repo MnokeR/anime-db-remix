@@ -63,7 +63,7 @@ function Form() {
         <FormSelect options={selectSort} param="Sort" />
       </div>
       <div className="flex justify-center pt-5">
-        {debounce && <p>&quot;{debounce}&quot;</p>}
+        {searchValue && <p>&quot;{searchValue}&quot;</p>}
       </div>
     </>
   );

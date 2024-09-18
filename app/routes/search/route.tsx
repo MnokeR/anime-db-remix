@@ -1,4 +1,4 @@
-import { defer, LoaderFunctionArgs } from "@remix-run/cloudflare";
+import { defer, json, LoaderFunctionArgs } from "@remix-run/cloudflare";
 import { Outlet, useLoaderData } from "@remix-run/react";
 import {
   dehydrate,
@@ -21,7 +21,7 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     staleTime: 1000 * 60 * 20,
   });
   const dehydratedState = dehydrate(queryClient);
-  return defer(
+  return json(
     { dehydratedState },
     { headers: { "Cache-Control": "max-age=1500 must-revalidate" } }
   );

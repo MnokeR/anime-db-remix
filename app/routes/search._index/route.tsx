@@ -1,5 +1,8 @@
 import { Await, useSearchParams } from "@remix-run/react";
-import { useSuspenseInfiniteQuery } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useSuspenseInfiniteQuery,
+} from "@tanstack/react-query";
 import { Suspense } from "react";
 import AnimeCard from "~/components/AnimeCard";
 import Loading from "~/components/Loading";
@@ -11,43 +14,47 @@ function SearchIndex() {
   const [searchParams] = useSearchParams();
   const params = getNewSearchParams(searchParams);
 
-  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useSuspenseInfiniteQuery({
-      queryKey: ["search", params],
-      queryFn: async ({ pageParam }) =>
-        await fetchSearchData({ pageParam, params }),
-      initialPageParam: 1,
-      getNextPageParam: (lastPage) => {
-        const pageInfo = lastPage.data.Page.pageInfo;
-        return pageInfo.hasNextPage ? pageInfo.currentPage + 1 : undefined;
-      },
-      staleTime: 1000 * 60 * 25,
-    });
-
+  const {
+    data,
+    status,
+    error,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["search", params],
+    queryFn: async ({ pageParam }) =>
+      await fetchSearchData({ pageParam, params }),
+    initialPageParam: 1,
+    getNextPageParam: (lastPage) => {
+      const pageInfo = lastPage.data.Page.pageInfo;
+      return pageInfo.hasNextPage ? pageInfo.currentPage + 1 : undefined;
+    },
+    staleTime: 1000 * 60 * 20,
+  });
   const containerRef = useInView({
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage,
   });
 
+  if (status === "pending") return <Loading />;
+  if (status === "error") return console.log(`Error: ${error.message}`);
+
   return (
     <>
       <section className="flex flex-wrap justify-center gap-5">
-        <Suspense fallback={<Loading />}>
-          <Await resolve={data}>
-            {data.pages.map((page) =>
-              page.data.Page.media.map((anime) => (
-                <AnimeCard
-                  key={anime.id}
-                  id={anime.id}
-                  image={anime.coverImage.large}
-                  title={anime.title.userPreferred}
-                  format={anime.format}
-                />
-              ))
-            )}
-          </Await>
-        </Suspense>
+        {data?.pages.map((page) =>
+          page.data.Page.media.map((anime) => (
+            <AnimeCard
+              key={anime.id}
+              id={anime.id}
+              image={anime.coverImage.large}
+              title={anime.title.userPreferred}
+              format={anime.format}
+            />
+          ))
+        )}
       </section>
       {hasNextPage && !isFetchingNextPage && <div ref={containerRef} />}
       {isFetchingNextPage && <Loading />}
