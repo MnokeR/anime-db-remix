@@ -48,7 +48,7 @@ export const loader = async () => {
     { data: data.data },
     {
       headers: {
-        "Cache-Control": "public, max-age=6000 stale-while-revalidate=6000",
+        "Cache-Control": "public, stale-while-revalidate=6000",
       },
     }
   );

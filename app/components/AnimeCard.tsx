@@ -1,4 +1,4 @@
-import { Link, NavLink } from "@remix-run/react";
+import { Link } from "@remix-run/react";
 
 type AnimeCardProps = {
   image: string;
@@ -11,7 +11,7 @@ function AnimeCard({ image, title, format, id }: AnimeCardProps) {
   return (
     <div className="flex flex-col">
       <div className="relative w-[210px] h-[294px] flex items-center justify-center bg-secondary rounded-xl">
-        <NavLink prefetch="intent" unstable_viewTransition to={`/anime/${id}`}>
+        <Link to={`/anime/${id}`} unstable_viewTransition>
           <img
             className="rounded-xl w-[195px] h-[279px] object-cover"
             src={image}
@@ -19,7 +19,7 @@ function AnimeCard({ image, title, format, id }: AnimeCardProps) {
             width={195}
             height={279}
           />
-        </NavLink>
+        </Link>
         <span className="absolute top-1 left-1 z-10 text-sm bg-primary text-primary-foreground rounded-full px-2 py-.5">
           {format}
         </span>

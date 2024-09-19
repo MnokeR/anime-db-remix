@@ -28,7 +28,11 @@ function AnimeIndex() {
           {media.title.userPreferred}
         </h1>
 
-        <Markdown>{media.description}</Markdown>
+        <Markdown
+          options={{ overrides: { br: { component: "br", props: {} } } }}
+        >
+          {media.description}
+        </Markdown>
 
         <div className="pt-5 flex flex-wrap gap-2">
           {media.genres.map((genre) => (
