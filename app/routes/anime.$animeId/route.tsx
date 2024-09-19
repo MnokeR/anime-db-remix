@@ -47,7 +47,7 @@ function Anime() {
         <Await resolve={data}>
           {(data) => (
             <>
-              <div className="hidden sm:block">
+              <div className="hidden md:block">
                 {data.Media.bannerImage && (
                   <img
                     src={data.Media.bannerImage}

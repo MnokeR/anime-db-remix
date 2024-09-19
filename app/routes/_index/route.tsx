@@ -59,9 +59,9 @@ export default function Index() {
 
   return (
     <main>
-      <section className="flex px-4 justify-center">
+      <div className="flex justify-center">
         <HeroSection />
-      </section>
+      </div>
       <section className="flex flex-col gap-10">
         <Suspense fallback={<Loading />}>
           <Await resolve={data}>
