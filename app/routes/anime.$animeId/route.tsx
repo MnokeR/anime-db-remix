@@ -31,7 +31,11 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   const data: { data: AnimeDetail } = await res.json();
   return defer(
     { data: data.data },
-    { headers: { "Cache-Control": "max-age=1500, must-revalidate" } }
+    {
+      headers: {
+        "Cache-Control": "public, max-age=6000 stale-while-revalidate=6000",
+      },
+    }
   );
 };
 
@@ -43,7 +47,7 @@ function Anime() {
         <Await resolve={data}>
           {(data) => (
             <>
-              <div>
+              <div className="hidden sm:block">
                 {data.Media.bannerImage && (
                   <img
                     src={data.Media.bannerImage}

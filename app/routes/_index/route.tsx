@@ -46,7 +46,11 @@ export const loader = async () => {
   const data: { data: HomeAnimesList } = await res.json();
   return defer(
     { data: data.data },
-    { headers: { "Cache-Control": "max-age=1500, must-revalidate" } }
+    {
+      headers: {
+        "Cache-Control": "public, max-age=6000 stale-while-revalidate=6000",
+      },
+    }
   );
 };
 
