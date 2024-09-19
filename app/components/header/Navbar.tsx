@@ -12,6 +12,8 @@ function Navbar({ className }: React.HTMLAttributes<HTMLElement>) {
     <nav className={clsx("flex gap-4", className)}>
       {links.map((link) => (
         <NavLink
+          prefetch="intent"
+          unstable_viewTransition
           key={link.label}
           to={link.path}
           className={({ isActive }) => (isActive ? active : "")}
