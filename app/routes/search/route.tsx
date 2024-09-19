@@ -21,7 +21,10 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
     initialPageParam: 1,
   });
   const dehydratedState = dehydrate(queryClient);
-  return json({ dehydratedState });
+  return json(
+    { dehydratedState },
+    { headers: { "public, max-age=6000 stale-while-revalidate=6000" } }
+  );
 };
 
 function Search() {

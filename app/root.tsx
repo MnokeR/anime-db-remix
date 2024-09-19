@@ -35,13 +35,7 @@ export const links: LinksFunction = () => [
   },
 ];
 
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: Infinity,
-    },
-  },
-});
+const queryClient = new QueryClient();
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const { getTheme } = await themeSessionResolver(request);
