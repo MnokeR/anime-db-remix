@@ -23,7 +23,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const dehydratedState = dehydrate(queryClient);
   return json(
     { dehydratedState },
-    { headers: { "public, max-age=6000 stale-while-revalidate=6000" } }
+    {
+      headers: {
+        "Cache-Control": "public, max-age=6000 stale-while-revalidate=6000",
+      },
+    }
   );
 };
 
