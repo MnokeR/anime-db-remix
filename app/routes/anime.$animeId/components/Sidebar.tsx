@@ -10,30 +10,14 @@ type SidebarProps = {
 function Sidebar({ data }: SidebarProps) {
   const anime = data.Media;
   return (
-    <div className="flex md:flex-col w-full md:w-[320px] p-5 bg-secondary rounded-xl gap-5">
+    <div className="flex md:flex-col w-full md:w-[320px] p-5 bg-none rounded-xl gap-5">
       <img
         src={anime.coverImage.large}
         alt="cover"
         width={280}
         className="w-[200px] h-auto md:w-[280px] object-contain self-start"
       />
-      <div>
-        {/* <NavLink to={`/anime/${anime.id}`}>
-          <div className="inline-flex items-center gap-4">
-            <span>
-              <LayoutDashboardIcon />
-            </span>
-            Overview
-          </div>
-        </NavLink>
-        <NavLink to="characters">
-          <div className="inline-flex items-center gap-4">
-            <span>
-              <DogIcon />
-            </span>
-            Characters
-          </div>
-        </NavLink> */}
+      <div className="flex flex-col space-y-2">
         {anime.type === "ANIME" && <FormatAnime data={data} />}
         {anime.type === "MANGA" && <FormatManga data={data} />}
       </div>

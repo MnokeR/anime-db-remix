@@ -4,7 +4,7 @@ import { Await, useLoaderData } from "@remix-run/react";
 import HeroSection from "./components/HeroSection";
 import AnimeListCat from "./components/AnimeListCat";
 import Loading from "~/components/Loading";
-import { homeQuery, BASE_URL } from "~/lib/api/queries";
+import { animeQuery, BASE_URL } from "~/lib/api/queries";
 import {
   currentSeason,
   currentSeasonYear,
@@ -22,10 +22,11 @@ export const meta: MetaFunction = () => {
 
 export const loader = async () => {
   const variables = {
-    currentSeason,
-    currentSeasonYear,
-    nextSeason,
-    nextSeasonYear,
+    type: "ANIME",
+    season: currentSeason,
+    seasonYear: currentSeasonYear,
+    nextSeason: nextSeason,
+    nextYear: nextSeasonYear,
   };
   const options = {
     method: "POST",
@@ -34,7 +35,7 @@ export const loader = async () => {
       Accept: "application/json",
     },
     body: JSON.stringify({
-      query: homeQuery,
+      query: animeQuery,
       variables,
     }),
     cf: {

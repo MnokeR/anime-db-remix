@@ -3,10 +3,7 @@ function Heading2({
   ...props
 }: React.HTMLAttributes<HTMLHeadingElement>) {
   return (
-    <h2
-      className="relative text-xl text-primary after:content-[''] after:block after:w-full after:h-1 after:bg-primary"
-      {...props}
-    >
+    <h2 className="text-primary text-lg" {...props}>
       {children}
     </h2>
   );

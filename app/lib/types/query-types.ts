@@ -1,7 +1,14 @@
-export type HomeAnimesList = {
+export type AnimesList = {
   nextSeason: { media: AnimeShort[] };
   popular: { media: AnimeShort[] };
   season: { media: AnimeShort[] };
+  top: { media: AnimeShort[] };
+  trending: { media: AnimeShort[] };
+};
+
+export type MangaList = {
+  manhwa: { media: AnimeShort[] };
+  popular: { media: AnimeShort[] };
   top: { media: AnimeShort[] };
   trending: { media: AnimeShort[] };
 };

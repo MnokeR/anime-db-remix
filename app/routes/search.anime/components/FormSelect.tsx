@@ -1,4 +1,4 @@
-import { useSearchParams } from "@remix-run/react";
+import { useNavigate, useSearchParams } from "@remix-run/react";
 import {
   Select,
   SelectContent,
@@ -15,6 +15,7 @@ type FormSelectProps = {
 
 function FormSelect({ options, param }: FormSelectProps) {
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const renderOptions = options.map((option) => (
     <SelectItem key={option.value} value={option.value}>
@@ -23,10 +24,21 @@ function FormSelect({ options, param }: FormSelectProps) {
   ));
 
   const handleSelect = (value: string) => {
-    if (value === "none") {
+    if (param === "Type" && value === "MANGA") {
+      // Navigate to "/search/manga?type=MANGA"
+      navigate("/search/manga?type=MANGA");
+      return;
+    } else if (param === "Type" && value === "ANIME") {
+      // Navigate to "/search?type=ANIME"
+      navigate("/search?type=ANIME");
+    } else if (param === "Type" && value === "none") {
+      navigate("/search");
+    } else if (value === "none") {
+      // Handle removal of the parameter if the value is "none"
       searchParams.delete(param);
-      setSearchParams(searchParams);
+      setSearchParams(searchParams, { replace: true });
     } else {
+      // Set the parameter for other values
       setSearchParams((prev) => {
         prev.set(param, value);
         return prev;

@@ -4,6 +4,7 @@ import { AnimeDetail } from "~/lib/types/query-types";
 import Markdown from "markdown-to-jsx";
 
 import Relation from "./components/Relation";
+import { Badge } from "~/components/ui/badge";
 
 function AnimeIndex() {
   const { data } = useOutletContext<{ data: AnimeDetail }>();
@@ -24,10 +25,9 @@ function AnimeIndex() {
   return (
     <div className="flex-1 flex flex-col pt-5 gap-10">
       <article>
-        <h1 className="text-2xl text-primary font-semibold mb-2">
+        <h1 className="text-xl md:text-2xl text-primary font-semibold mb-2">
           {media.title.userPreferred}
         </h1>
-
         <Markdown
           options={{ overrides: { br: { component: "br", props: {} } } }}
         >
@@ -36,12 +36,7 @@ function AnimeIndex() {
 
         <div className="pt-5 flex flex-wrap gap-2">
           {media.genres.map((genre) => (
-            <span
-              key={genre}
-              className="bg-primary text-primary-foreground py-1 px-2 text-sm rounded"
-            >
-              {genre}
-            </span>
+            <Badge key={genre}>{genre}</Badge>
           ))}
         </div>
       </article>

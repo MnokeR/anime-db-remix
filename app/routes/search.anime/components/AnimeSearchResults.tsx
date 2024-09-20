@@ -1,14 +1,39 @@
-import { useSearchParams } from "@remix-run/react";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { json, LoaderFunctionArgs } from "@remix-run/cloudflare";
+import { useLoaderData, useSearchParams } from "@remix-run/react";
+import {
+  dehydrate,
+  HydrationBoundary,
+  QueryClient,
+  useInfiniteQuery,
+} from "@tanstack/react-query";
 import AnimeCard from "~/components/AnimeCard";
 import Loading from "~/components/Loading";
 import { useInView } from "~/hooks/useInView";
-import { fetchSearchData } from "~/lib/api/fetch-data";
-import { getNewSearchParams } from "~/lib/api/get-search-params";
+import { fetchAnimeSearch, fetchManga } from "~/lib/api/fetch-data";
+import { getUpdatedAnimeSearchParams } from "~/lib/api/get-search-params";
 
-function SearchIndex() {
+export const loader = async () => {
+  const queryClient = new QueryClient();
+
+  await queryClient.prefetchQuery({
+    queryKey: ["search-anime"],
+    queryFn: async () => await fetchManga(),
+  });
+  const dehydratedState = dehydrate(queryClient);
+  return json(
+    { dehydratedState },
+    {
+      headers: {
+        "Cache-Control": "public, stale-while-revalidate=6000",
+      },
+    }
+  );
+};
+
+function AnimeSearchResults() {
+  const { dehydratedState } = useLoaderData<typeof loader>();
   const [searchParams] = useSearchParams();
-  const params = getNewSearchParams(searchParams);
+  const params = getUpdatedAnimeSearchParams(searchParams);
 
   const {
     data,
@@ -18,9 +43,9 @@ function SearchIndex() {
     fetchNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["search", params],
+    queryKey: ["search-anime", params],
     queryFn: async ({ pageParam }) =>
-      await fetchSearchData({ pageParam, params }),
+      await fetchAnimeSearch({ pageParam, params }),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => {
       const pageInfo = lastPage.data.Page.pageInfo;
@@ -35,10 +60,10 @@ function SearchIndex() {
   });
 
   if (status === "pending") return <Loading />;
-  if (status === "error") return console.log(`Error: ${error.message}`);
+  if (status === "error") return <div>(`Error: ${error.message}`)</div>;
 
   return (
-    <>
+    <HydrationBoundary state={dehydratedState}>
       <section className="flex flex-wrap justify-center gap-5">
         {data?.pages.map((page) =>
           page.data.Page.media.map((anime) => (
@@ -54,8 +79,8 @@ function SearchIndex() {
       </section>
       {hasNextPage && !isFetchingNextPage && <div ref={containerRef} />}
       {isFetchingNextPage && <Loading />}
-    </>
+    </HydrationBoundary>
   );
 }
 
-export default SearchIndex;
+export default AnimeSearchResults;

@@ -3,7 +3,8 @@ import clsx from "clsx";
 
 const links = [
   { label: "Home", path: "/" },
-  { label: "Search", path: "/search" },
+  { label: "Search Anime", path: "/search/anime" },
+  { label: "Search Manga", path: "/search/manga" },
 ];
 const active = "text-primary";
 
