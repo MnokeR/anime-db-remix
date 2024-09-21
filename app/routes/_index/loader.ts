@@ -27,7 +27,7 @@ export const homeLoader = async () => {
       variables,
     }),
     cf: {
-      cacheTtl: 5,
+      cacheTtl: 0,
       cacheEverything: true,
     },
   };

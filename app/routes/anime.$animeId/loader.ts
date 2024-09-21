@@ -18,7 +18,7 @@ export const animeDetailsLoader = async ({ params }: LoaderFunctionArgs) => {
       variables,
     }),
     cf: {
-      cacheTtl: 5,
+      cacheTtl: 0,
       cacheEverything: true,
     },
   };

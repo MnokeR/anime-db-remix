@@ -32,7 +32,7 @@ export const fetchAnimeSearch = async ({
       variables,
     }),
     cf: {
-      cacheTtl: 5,
+      cacheTtl: 0,
       cacheEverything: true,
     },
   };
@@ -77,7 +77,7 @@ export const fetchMangaSearch = async ({
       variables,
     }),
     cf: {
-      cacheTtl: 5,
+      cacheTtl: 0,
       cacheEverything: true,
     },
   };

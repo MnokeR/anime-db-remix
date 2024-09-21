@@ -36,7 +36,7 @@ export const animeLoader = async ({ request }: LoaderFunctionArgs) => {
         variables,
       }),
       cf: {
-        cacheTtl: 5,
+        cacheTtl: 0,
         cacheEverything: true,
       },
     };
