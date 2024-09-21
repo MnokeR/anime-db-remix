@@ -79,7 +79,9 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Header />
-      <Outlet />
+      <main>
+        <Outlet />
+      </main>
       <Footer />
     </QueryClientProvider>
   );

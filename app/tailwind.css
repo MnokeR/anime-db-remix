@@ -86,23 +86,30 @@
   }
 }
 
-@keyframes slide-from-right {
+@keyframes slide-from-bottom {
   from {
-    transform: translateX(30px);
+    transform: translateY(100%);
   }
 }
 
-@keyframes slide-to-left {
+@keyframes slide-to-top {
   to {
-    transform: translateX(-30px);
+    transform: translateY(0%);
   }
 }
-
-::view-transition-old(root) {
-  animation: 90ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
-    300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-left;
+.view-transition {
+  view-transition-name: page-in;
 }
-::view-transition-new(root) {
+
+::view-transition-old(page-in) {
+  animation: 90ms cubic-bezier(0.4, 0, 1, 1) both fade-out,
+    200ms cubic-bezier(0.4, 0, 0.2, 1) both slide-to-top;
+}
+::view-transition-new(page-in) {
   animation: 210ms cubic-bezier(0, 0, 0.2, 1) 90ms both fade-in,
-    300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-right;
+    300ms cubic-bezier(0.4, 0, 0.2, 1) both slide-from-bottom;
+}
+
+.no-transition {
+  view-transition-name: none;
 }

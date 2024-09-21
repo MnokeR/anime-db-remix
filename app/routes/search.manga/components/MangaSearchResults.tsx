@@ -39,9 +39,9 @@ function MangaSearchResults() {
 
   return (
     <>
-      <section className="flex flex-wrap justify-center gap-5">
+      <section className="flex flex-wrap justify-center gap-5 view-transition">
         {data?.pages.map((page) =>
-          page.data.Page.media.map((anime) => (
+          page?.data.Page.media.map((anime) => (
             <AnimeCard
               key={anime.id}
               id={anime.id}

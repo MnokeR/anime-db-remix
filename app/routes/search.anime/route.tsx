@@ -59,12 +59,12 @@ function SearchAnime() {
     "dehydratedState" in loaderData ? loaderData.dehydratedState : undefined;
 
   return (
-    <main>
-      <section>
+    <>
+      <section className="no-transition">
         <Form />
       </section>
       {data && (
-        <section className="flex flex-col gap-10">
+        <section className="flex flex-col gap-10 view-transition">
           <Suspense fallback={<Loading />}>
             <Await resolve={data}>
               {
@@ -101,7 +101,7 @@ function SearchAnime() {
           <AnimeSearchResults />
         </HydrationBoundary>
       )}
-    </main>
+    </>
   );
 }
 

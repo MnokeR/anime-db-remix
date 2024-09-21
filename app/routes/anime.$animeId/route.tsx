@@ -42,7 +42,7 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 function Anime() {
   const { data } = useLoaderData<typeof loader>();
   return (
-    <main className="flex-1">
+    <div className="flex-1 view-transition">
       <Suspense fallback={<Loading />}>
         <Await resolve={data}>
           {(data) => (
@@ -66,7 +66,7 @@ function Anime() {
           )}
         </Await>
       </Suspense>
-    </main>
+    </div>
   );
 }
 export default Anime;

@@ -60,12 +60,12 @@ function SearchManga() {
     "dehydratedState" in loaderData ? loaderData.dehydratedState : undefined;
 
   return (
-    <main>
+    <>
       <section>
         <Form />
       </section>
       {data && (
-        <section className="flex flex-col gap-10">
+        <section className="flex flex-col gap-10 view-transition">
           <Suspense fallback={<Loading />}>
             <Await resolve={data}>
               <AnimeListCat
@@ -94,7 +94,7 @@ function SearchManga() {
           <MangaSearchResults />
         </HydrationBoundary>
       )}
-    </main>
+    </>
   );
 }
 

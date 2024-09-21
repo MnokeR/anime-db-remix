@@ -59,11 +59,11 @@ export default function Index() {
   const { data } = useLoaderData<typeof loader>();
 
   return (
-    <main>
-      <div className="flex justify-center">
+    <div>
+      <section className="flex justify-center">
         <HeroSection />
-      </div>
-      <section className="flex flex-col gap-10">
+      </section>
+      <section className="flex flex-col gap-10 view-transition">
         <Suspense fallback={<Loading />}>
           <Await resolve={data}>
             {
@@ -94,6 +94,6 @@ export default function Index() {
           </Await>
         </Suspense>
       </section>
-    </main>
+    </div>
   );
 }
