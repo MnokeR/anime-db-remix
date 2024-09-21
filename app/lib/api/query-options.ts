@@ -7,7 +7,6 @@ import {
 import { animeQuery, mangaQuery } from "./queries";
 
 const mangaVariables = {
-  type: "ANIME",
   season: currentSeason,
   seasonYear: currentSeasonYear,
   nextSeason: nextSeason,

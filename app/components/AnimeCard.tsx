@@ -1,4 +1,4 @@
-import { Link, NavLink } from "@remix-run/react";
+import { NavLink } from "@remix-run/react";
 
 type AnimeCardProps = {
   image: string;

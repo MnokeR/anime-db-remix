@@ -2,6 +2,7 @@ import { useSearchParams } from "@remix-run/react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import AnimeCard from "~/components/AnimeCard";
 import Loading from "~/components/Loading";
+import LoadingSkeleton from "~/components/LoadingSkeleton";
 import { useInView } from "~/hooks/useInView";
 import { fetchAnimeSearch } from "~/lib/api/fetch-data";
 import { getUpdatedAnimeSearchParams } from "~/lib/api/get-search-params";
@@ -34,7 +35,7 @@ function AnimeSearchResults() {
     isFetchingNextPage,
   });
 
-  if (status === "pending") return <Loading />;
+  if (status === "pending") return <LoadingSkeleton />;
   if (status === "error") return <div>(`Error: ${error.message}`)</div>;
 
   return (

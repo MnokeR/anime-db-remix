@@ -3,7 +3,6 @@ import { Suspense } from "react";
 import { Await, useLoaderData } from "@remix-run/react";
 import HeroSection from "./components/HeroSection";
 import AnimeListCat from "./components/AnimeListCat";
-import Loading from "~/components/Loading";
 import { animeQuery, BASE_URL } from "~/lib/api/queries";
 import {
   currentSeason,
@@ -11,7 +10,8 @@ import {
   nextSeason,
   nextSeasonYear,
 } from "~/lib/seasons";
-import { HomeAnimesList } from "~/lib/types/query-types";
+import { AnimesList } from "~/lib/types/query-types";
+import LoadingSkeleton from "~/components/LoadingSkeleton";
 
 export const meta: MetaFunction = () => {
   return [
@@ -22,12 +22,12 @@ export const meta: MetaFunction = () => {
 
 export const loader = async () => {
   const variables = {
-    type: "ANIME",
     season: currentSeason,
     seasonYear: currentSeasonYear,
     nextSeason: nextSeason,
     nextYear: nextSeasonYear,
   };
+
   const options = {
     method: "POST",
     headers: {
@@ -44,7 +44,8 @@ export const loader = async () => {
     },
   };
   const res = await fetch(BASE_URL, options);
-  const data: { data: HomeAnimesList } = await res.json();
+  const data: { data: AnimesList } = await res.json();
+
   return defer(
     { data: data.data },
     {
@@ -63,8 +64,8 @@ export default function Index() {
       <section className="flex justify-center">
         <HeroSection />
       </section>
-      <section className="flex flex-col gap-10 view-transition">
-        <Suspense fallback={<Loading />}>
+      <Suspense fallback={<LoadingSkeleton />}>
+        <section className="flex flex-col gap-10 view-transition">
           <Await resolve={data}>
             {
               <>
@@ -92,8 +93,8 @@ export default function Index() {
               </>
             }
           </Await>
-        </Suspense>
-      </section>
+        </section>
+      </Suspense>
     </div>
   );
 }

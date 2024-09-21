@@ -9,7 +9,6 @@ import {
   selectSeason,
   selectSort,
   selectStatus,
-  selectType,
   selectYear,
 } from "~/lib/search-options";
 
@@ -54,7 +53,6 @@ function Form() {
           defaultValue={searchParams.get("term") || ""}
           onChange={(e) => handleChange(e)}
         />
-        <FormSelect options={selectType} param="Type" />
         <FormSelect options={selectGenres} param="Genres" />
         <FormSelect options={selectYear} param="Year" />
         <FormSelect options={selectSeason} param="Season" />
