@@ -25,7 +25,7 @@ export const fetchAnimeSearch = async ({
     headers: {
       "Content-Type": "application/json",
       accept: "application/json",
-      "Cache-Control": "public, stale-while-revalidate=6000",
+      "Cache-Control": "public, max-age=120, stale-while-revalidate=900",
     },
     body: JSON.stringify({
       query: animeSearchQuery,
@@ -70,7 +70,7 @@ export const fetchMangaSearch = async ({
     headers: {
       "Content-Type": "application/json",
       accept: "application/json",
-      "Cache-Control": "public, stale-while-revalidate=6000",
+      "Cache-Control": "public, max-age=120, stale-while-revalidate=900",
     },
     body: JSON.stringify({
       query: mangaSearchQuery,

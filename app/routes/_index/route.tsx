@@ -1,17 +1,11 @@
-import { defer, MetaFunction } from "@remix-run/cloudflare";
+import { MetaFunction } from "@remix-run/cloudflare";
 import { Suspense } from "react";
 import { Await, useLoaderData } from "@remix-run/react";
 import HeroSection from "./components/HeroSection";
 import AnimeListCat from "./components/AnimeListCat";
-import { animeQuery, BASE_URL } from "~/lib/api/queries";
-import {
-  currentSeason,
-  currentSeasonYear,
-  nextSeason,
-  nextSeasonYear,
-} from "~/lib/seasons";
-import { AnimesList } from "~/lib/types/query-types";
+
 import LoadingSkeleton from "~/components/LoadingSkeleton";
+import { homeLoader } from "./loader";
 
 export const meta: MetaFunction = () => {
   return [
@@ -20,41 +14,7 @@ export const meta: MetaFunction = () => {
   ];
 };
 
-export const loader = async () => {
-  const variables = {
-    season: currentSeason,
-    seasonYear: currentSeasonYear,
-    nextSeason: nextSeason,
-    nextYear: nextSeasonYear,
-  };
-
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify({
-      query: animeQuery,
-      variables,
-    }),
-    cf: {
-      cacheTtl: 5,
-      cacheEverything: true,
-    },
-  };
-  const res = await fetch(BASE_URL, options);
-  const data: { data: AnimesList } = await res.json();
-
-  return defer(
-    { data: data.data },
-    {
-      headers: {
-        "Cache-Control": "public, stale-while-revalidate=6000",
-      },
-    }
-  );
-};
+export const loader = homeLoader;
 
 export default function Index() {
   const { data } = useLoaderData<typeof loader>();

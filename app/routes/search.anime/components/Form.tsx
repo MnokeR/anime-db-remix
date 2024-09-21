@@ -44,21 +44,26 @@ function Form() {
 
   return (
     <>
-      <div className="flex flex-wrap gap-2 justify-center mx-4">
-        <Input
-          className="max-w-[300px]"
-          name="term"
-          type="search"
-          placeholder="Search"
-          defaultValue={searchParams.get("term") || ""}
-          onChange={(e) => handleChange(e)}
-        />
-        <FormSelect options={selectGenres} param="Genres" />
-        <FormSelect options={selectYear} param="Year" />
-        <FormSelect options={selectSeason} param="Season" />
-        <FormSelect options={selectFormat} param="Format" />
-        <FormSelect options={selectStatus} param="Status" />
-        <FormSelect options={selectSort} param="Sort" />
+      <div className="flex flex-col lg:flex-row gap-2 justify-center items-center mx-4">
+        <div className="flex gap-2">
+          <Input
+            className="w-full md:w-[300px]"
+            name="term"
+            type="search"
+            placeholder="Search"
+            defaultValue={searchParams.get("term") || ""}
+            onChange={(e) => handleChange(e)}
+          />
+
+          <FormSelect options={selectSort} param="Sort" />
+        </div>
+        <div className="flex flex-wrap justify-center gap-2">
+          <FormSelect options={selectGenres} param="Genres" />
+          <FormSelect options={selectYear} param="Year" />
+          <FormSelect options={selectSeason} param="Season" />
+          <FormSelect options={selectFormat} param="Format" />
+          <FormSelect options={selectStatus} param="Status" />
+        </div>
       </div>
       <div className="flex justify-center pt-5">
         {searchValue && <p>&quot;{searchValue}&quot;</p>}

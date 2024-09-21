@@ -41,11 +41,14 @@ export const mangaLoader = async ({ request }: LoaderFunctionArgs) => {
     };
     const res = await fetch(BASE_URL, options);
     const data: { data: MangaList } = await res.json();
+    if (!data || !data.data) {
+      throw new Response("Failed to load data", { status: 500 });
+    }
     return defer(
       { data: data.data },
       {
         headers: {
-          "Cache-Control": "public, stale-while-revalidate=6000",
+          "Cache-Control": "public, max-age=120, stale-while-revalidate=900",
         },
       }
     );
@@ -61,7 +64,7 @@ export const mangaLoader = async ({ request }: LoaderFunctionArgs) => {
       { dehydratedState },
       {
         headers: {
-          "Cache-Control": "public, stale-while-revalidate=6000",
+          "Cache-Control": "public, max-age=120, stale-while-revalidate=900",
         },
       }
     );
