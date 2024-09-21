@@ -14,7 +14,7 @@ function Sidebar({ data }: SidebarProps) {
         alt="cover"
         width={280}
         className="w-[200px] h-auto md:w-[280px] object-contain self-start anime-card-cover z-10"
-        style={{ viewTransitionName: "expand-image" }}
+        style={{ viewTransitionName: `expand-image-${anime.id}` }}
       />
       <div className="flex flex-col space-y-2">
         {anime.type === "ANIME" && <FormatAnime data={data} />}

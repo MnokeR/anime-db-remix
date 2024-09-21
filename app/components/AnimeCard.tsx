@@ -21,7 +21,7 @@ function AnimeCard({ image, title, format, id }: AnimeCardProps) {
               height={279}
               style={
                 isTransitioning
-                  ? { viewTransitionName: "expand-image" }
+                  ? { viewTransitionName: `expand-image-${id}` }
                   : undefined
               }
             />
