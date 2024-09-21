@@ -1,20 +1,29 @@
 import { json } from "@remix-run/cloudflare";
-
 export const onRequestGet: PagesFunction = async ({ request }) => {
   try {
     const url = new URL(request.url);
-    const path = url.searchParams.get("path"); // Get the path from query parameters
+    const href = url.href;
 
-    if (!path) {
-      return json({ error: "No path provided!" }, { status: 400 });
-    }
-
-    const cacheURL = new URL(path, "https://anime-db-remix.pages.dev").href;
-
+    const cacheURL = href.replace("purge", "");
     const cache = await caches.open("resources:cache");
-    const isDeleted = await cache.delete(cacheURL);
 
-    return json({ cacheCleared: isDeleted, url: cacheURL });
+    // Log the cache entries
+    const cacheKeys = await cache.keys();
+    const cacheEntries = await Promise.all(
+      cacheKeys.map(async (key) => {
+        const response = await cache.match(key);
+        return {
+          url: key.url,
+          status: response ? response.status : "Not found",
+        };
+      })
+    );
+
+    console.log("Current cache entries:", cacheEntries);
+
+    // Attempt to delete the specified URL
+    const isDeleted = await cache.delete(cacheURL);
+    return json({ cacheCleared: isDeleted, cacheEntries });
   } catch (error) {
     return json({ error: "Something Went Wrong!" });
   }
