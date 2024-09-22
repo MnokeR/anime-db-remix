@@ -40,7 +40,7 @@ export const homeLoader = async () => {
     { data: data.data },
     {
       headers: {
-        "Cache-Control": "public, max-age=120, stale-while-revalidate=900",
+        "Cache-Control": "no-cache, no-store, must-revalidate",
       },
     }
   );

@@ -1,22 +1,37 @@
 import { json } from "@remix-run/cloudflare";
-export const onRequestGet: PagesFunction = async ({ request }) => {
+
+export const onRequestPost: PagesFunction = async ({ request }) => {
   try {
-    const url = new URL(request.url);
-    const href = url.href;
+    const purgeURL =
+      "https://api.cloudflare.com/client/v4/zones/YOUR_ZONE_ID/purge_cache";
 
-    console.log("Request URL:", href); // Log the incoming URL
+    // Your Cloudflare API token here (you should store it securely, not hardcode)
+    const API_TOKEN = "YOUR_CLOUDFLARE_API_TOKEN";
 
-    const cacheURL = href.replace("purge", "");
+    // Cache clearing request payload
+    const body = JSON.stringify({
+      purge_everything: true, // Purges the entire cache
+      // You can also purge specific files by listing them here:
+      // files: ["https://anime-db-remix.pages.dev/", "https://anime-db-remix.pages.dev/search/anime"]
+    });
 
-    const cache = await caches.open("resources:cache");
-    const isDeleted = await cache.delete(cacheURL);
+    const purgeRequest = await fetch(purgeURL, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${API_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      body,
+    });
 
-    console.log("Cache URL:", cacheURL); // Log the cache URL
-    console.log("Cache cleared:", isDeleted); // Log the cache clearing status
+    const result = await purgeRequest.json();
 
-    return json({ cacheCleared: isDeleted });
+    if (result.success) {
+      return json({ message: "Cache purged successfully" });
+    } else {
+      return json({ error: "Failed to purge cache", details: result.errors });
+    }
   } catch (error) {
-    console.error("Error occurred:", error); // Log the error
-    return json({ error: "Something Went Wrong!" });
+    return json({ error: "Something went wrong", details: error.message });
   }
 };
